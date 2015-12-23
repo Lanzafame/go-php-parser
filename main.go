@@ -3,10 +3,24 @@
 // Attempts to compile PHP code to Go. Stupidly.
 package main
 
-import "os"
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+)
 
-func ReadIntoMemory(f os.File) []byte {
-	var file []byte
+func main() {
+	fileargs := os.Args[1:]
+	files := make(map[string][]byte)
+	var err error
+	for _, f := range fileargs {
+		files[f], err = ioutil.ReadFile(f)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	return file
+		fmt.Println(files[f])
+		fmt.Println(string(files[f]))
+	}
 }
